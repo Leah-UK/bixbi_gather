@@ -3,18 +3,12 @@
 
 ---
 
-<h2 align='center'>Information</h2>
-
-
-
----
-
 <h2 align='center'>Requirements</h2>
 
 - OneSync <b>Infinity</b>
 - <a href='https://github.com/overextended/es_extended'>"Ox" ESX</a>,<i> You can modify for other frameworks. <b>Please make a PR if you do</b></i>
 - <a href='https://github.com/Leah-UK/bixbi_core'>bixbi_core</a>
-- <a href='https://github.com/plunkettscott/interact-sound'>Interact Sound</a>
+- <a href='https://github.com/Leah-UK/cd_keymaster'>cd_keymaster</a>
 
 ---
 
