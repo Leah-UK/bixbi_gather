@@ -3,12 +3,20 @@
 
 ---
 
+<h2 align='center'>Information</h2>
+
+A basic collect/gathering script. You're able to select your own collect models, returned items and required tools.
+
+<h3 align='center'><b><a href='https://youtu.be/QtYE-kkOz74'>Demonstration Video</a></b></h3>
+
+---
+
 <h2 align='center'>Requirements</h2>
 
 - OneSync <b>Infinity</b>
 - <a href='https://github.com/overextended/es_extended'>"Ox" ESX</a>,<i> You can modify for other frameworks. <b>Please make a PR if you do</b></i>
 - <a href='https://github.com/Leah-UK/bixbi_core'>bixbi_core</a>
-- <a href='https://github.com/Leah-UK/cd_keymaster'>cd_keymaster</a>
+- <a href='https://github.com/overextended/qtarget'>qtarget</a>
 
 ---
 
