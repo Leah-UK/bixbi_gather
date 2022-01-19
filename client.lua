@@ -118,6 +118,7 @@ AddEventHandler('bixbi_gather:StartCollect', function(pos, ConfigItem)
                         table.remove(spawnedItems[ConfigItem].locations, nearbyID)
                         spawnedItems[ConfigItem].count = spawnedItems[ConfigItem].count - 1
 
+                        -- TriggerServerEvent('bixbi_gather:Success', coords, ConfigItem, item, nearbyObject.itemQty)
                         TriggerServerEvent('bixbi_gather:Success', coords, ConfigItem, item, nearbyObject.itemQty)
                     else
                         exports['bixbi_core']:Notify('error', 'You need a ' .. itemZones[ConfigItem].tool .. ' to do this.')
@@ -178,8 +179,9 @@ function SpawnItems(EntryName)
                         FreezeEntityPosition(obj, true)
                         
                         math.randomseed(GetGameTimer())
-                        local itemQty = math.random(v.minQty, v.maxQty)
-                        table.insert(spawnedItems[EntryName].locations, { object = obj, item = v.item, itemQty = itemQty, label = v.label })
+                        -- local itemQty = math.random(v.minQty, v.maxQty)
+                        -- table.insert(spawnedItems[EntryName].locations, { object = obj, item = v.item, itemQty = itemQty, label = v.label })
+                        table.insert(spawnedItems[EntryName].locations, { object = obj, item = v.item, label = v.label })
                         spawnedItems[EntryName].count = itemInfo.count + 1
                     end)
                 end

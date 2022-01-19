@@ -17,11 +17,14 @@ AddEventHandler('bixbi_gather:SetupTargets', function()
 end)
 
 RegisterServerEvent('bixbi_gather:Success')
-AddEventHandler('bixbi_gather:Success', function(pos, field, item, count)
+AddEventHandler('bixbi_gather:Success', function(pos, field, item)
     local field = Config.CircleZones[field]
     if (#(pos - field.coords) < field.radius) then
+        local count = 1
+        for _, v in pairs(field.info) do
+            if (v.item == item) then count = math.random(v.minQty, v.maxQty) end
+        end
         exports.bixbi_core:addItem(source, item, count)
-
         TriggerClientEvent('bixbi_core:Notify', source, '', 'You have collected ' .. count .. 'x ' .. item)
     else
         TriggerClientEvent('bixbi_core:Notify', source, 'error', 'You were too far away from the item zone')
