@@ -310,8 +310,10 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
     ESX.PlayerData = xPlayer
  	ESX.PlayerLoaded = true
     
-    ESX.TriggerServerCallback('bixbi_core:illegalTaskBlacklist', function(result) 
-        if (not result) then
+    ESX.TriggerServerCallback('bixbi_core:illegalTaskBlacklist', function(result)
+        if (result and Config.BlacklistCertainJobs) then
+            return
+        else
             LocationLoop()
         end
     end)
