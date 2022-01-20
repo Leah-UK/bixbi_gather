@@ -264,7 +264,10 @@ function LocationLoop()
             for k, v in pairs(itemZones) do
                 local distance = #(coords - v.coords)
                 if (distance < closestDistance) then closestDistance = distance end
+                print(closestDistance)
+                print(k)
                 if (closestDistance < v.radius) then
+                    print('in distance')
                     areaSpawnRadius = v.radius
                     SpawnItems(k)
                     lastSpawnedLocation = coords
@@ -275,9 +278,9 @@ function LocationLoop()
             if (closestDistance < (areaSpawnRadius * 1.5)) then
                 locationLoopSleep = 1
             elseif (closestDistance > 1800) then
-                locationLoopSleep = 60
+                locationLoopSleep = 45
             elseif (closestDistance > 500) then
-                locationLoopSleep = 10
+                locationLoopSleep = 7
             elseif (closestDistance > 200) then
                 locationLoopSleep = 5
             end
