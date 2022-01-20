@@ -119,7 +119,7 @@ AddEventHandler('bixbi_gather:StartCollect', function(pos, ConfigItem)
                         spawnedItems[ConfigItem].count = spawnedItems[ConfigItem].count - 1
 
                         -- TriggerServerEvent('bixbi_gather:Success', coords, ConfigItem, item, nearbyObject.itemQty)
-                        TriggerServerEvent('bixbi_gather:Success', coords, ConfigItem, item, nearbyObject.itemQty)
+                        TriggerServerEvent('bixbi_gather:Success', coords, ConfigItem, item)
                     else
                         exports['bixbi_core']:Notify('error', 'You need a ' .. itemZones[ConfigItem].tool .. ' to do this.')
                     end
