@@ -118,7 +118,6 @@ AddEventHandler('bixbi_gather:StartCollect', function(pos, ConfigItem)
                         table.remove(spawnedItems[ConfigItem].locations, nearbyID)
                         spawnedItems[ConfigItem].count = spawnedItems[ConfigItem].count - 1
 
-                        -- TriggerServerEvent('bixbi_gather:Success', coords, ConfigItem, item, nearbyObject.itemQty)
                         TriggerServerEvent('bixbi_gather:Success', coords, ConfigItem, item)
                     else
                         exports['bixbi_core']:Notify('error', 'You need a ' .. itemZones[ConfigItem].tool .. ' to do this.')
@@ -152,7 +151,13 @@ AddEventHandler('bixbi_gather:StartCollect', function(pos, ConfigItem)
     end
 end)
 
+local lastSpawnedZone = ''
 function SpawnItems(EntryName)
+    if (lastSpawnedZone ~= EntryName) then
+        RemoveObjects()
+        lastSpawnedZone = EntryName
+    end
+
     local ConfigItem = itemZones[EntryName]
     local itemInfo = spawnedItems[EntryName]
     if (itemInfo == nil) then
@@ -163,8 +168,8 @@ function SpawnItems(EntryName)
 
         itemInfo = spawnedItems[EntryName]
     end
-
-    while (itemInfo.count < ConfigItem.maxCount + 1) do
+    
+    while (itemInfo.count < ConfigItem.maxCount) do
         Citizen.Wait(1000)
         for _, v in pairs(ConfigItem.info) do
             if (spawnedItems[EntryName].count < ConfigItem.maxCount) then
@@ -179,8 +184,6 @@ function SpawnItems(EntryName)
                         FreezeEntityPosition(obj, true)
                         
                         math.randomseed(GetGameTimer())
-                        -- local itemQty = math.random(v.minQty, v.maxQty)
-                        -- table.insert(spawnedItems[EntryName].locations, { object = obj, item = v.item, itemQty = itemQty, label = v.label })
                         table.insert(spawnedItems[EntryName].locations, { object = obj, item = v.item, label = v.label })
                         spawnedItems[EntryName].count = itemInfo.count + 1
                     end)
@@ -233,20 +236,11 @@ function ValidateItemCoords(ConfigItem, itemInfo, itemCoord)
 end
 
 function GetCoordZ(x, y)
-	-- local groundCheckHeights = { 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0 }
-	-- for i, height in ipairs(groundCheckHeights) do
-	-- 	local foundGround, z = GetGroundZFor_3dCoord(x, y, height)
-	-- 	if foundGround then
-	-- 		return z
-	-- 	end
-	-- end
-	-- return 43.0
     for height = 1, 1000 do
         local foundGround, zPos = GetGroundZFor_3dCoord(x, y, height + 0.0)
         if foundGround then
             return zPos
         end
-
         -- Citizen.Wait(5)
     end
 end
@@ -254,9 +248,9 @@ end
 function LocationLoop()
     TriggerServerEvent('bixbi_gather:SetupTargets')
     Citizen.CreateThread(function()
-        local locationLoopSleep = 1
         local lastSpawnedLocation = nil
         while ESX.PlayerLoaded do
+            local locationLoopSleep = 1
             local closestDistance = 1000
             local areaSpawnRadius = 100
             local coords = GetEntityCoords(PlayerPedId())
@@ -268,11 +262,11 @@ function LocationLoop()
                     areaSpawnRadius = v.radius
                     SpawnItems(k)
                     lastSpawnedLocation = coords
-                    Citizen.Wait(60000)
+                    Citizen.Wait(20000)
                 end
             end
 
-            if (closestDistance < (areaSpawnRadius * 1.5)) then
+            if (closestDistance < (areaSpawnRadius * 1.2)) then
                 locationLoopSleep = 1
             elseif (closestDistance > 1800) then
                 locationLoopSleep = 45
@@ -286,8 +280,8 @@ function LocationLoop()
                 RemoveObjects()
                 lastSpawnedLocation = nil
             end
-            
-            Citizen.Wait(locationLoopSleep * 1000) -- Seconds.
+
+            Citizen.Wait(locationLoopSleep * 1000)
         end
     end)
 end
@@ -333,6 +327,7 @@ function RemoveObjects()
     end
     spawnedItems = nil
     spawnedItems = {}
+    lastSpawnedZone = ''
 end
 
 AddEventHandler('onResourceStop', function(resource)
