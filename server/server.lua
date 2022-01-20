@@ -5,7 +5,7 @@ RegisterServerEvent('bixbi_gather:Collect')
 AddEventHandler('bixbi_gather:Collect', function(pos, itemZone)
     local zone = Config.CircleZones[itemZone]
     local distance = #(pos - zone.coords)
-    if (distance < zone.radius) then
+    if (distance < zone.radius + 5.0) then
         TriggerClientEvent('bixbi_gather:StartCollect', source, pos, itemZone)
     end
 end)
