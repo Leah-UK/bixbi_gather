@@ -19,7 +19,7 @@ end)
 RegisterServerEvent('bixbi_gather:Success')
 AddEventHandler('bixbi_gather:Success', function(pos, field, item)
     local field = Config.CircleZones[field]
-    if (#(pos - field.coords) < field.radius) then
+    if (#(pos - field.coords) < field.radius + 5.0) then
         local count = 1
         for _, v in pairs(field.info) do
             if (v.item == item) then count = math.random(v.minQty, v.maxQty) end
