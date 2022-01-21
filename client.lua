@@ -57,10 +57,7 @@ local collectionInProgress = false
 AddEventHandler('bixbi_gather:TriggerCollect', function(data)
     local source = GetPlayerServerId(PlayerId())
     local coords = GetEntityCoords(PlayerPedId())
-    if (not collectionInProgress) then 
-        collectionInProgress = true
-        TriggerServerEvent('bixbi_gather:Collect', coords, data.location)]
-    end
+    if (not collectionInProgress) then TriggerServerEvent('bixbi_gather:Collect', coords, data.location) end
 end)
 
 function CreateProp(waitTime, ConfigItem)
@@ -81,6 +78,7 @@ end
 
 RegisterNetEvent('bixbi_gather:StartCollect')
 AddEventHandler('bixbi_gather:StartCollect', function(pos, ConfigItem)
+    if (collectionInProgress) then return end
     local playerPed = PlayerPedId()
     local coords = GetEntityCoords(playerPed)
     local nearbyObject
